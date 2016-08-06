@@ -13,3 +13,5 @@ add_executable( gtest_auto
         main.cpp
         gcovfileparsertests.cpp )
 target_link_libraries(gtest_auto gtest gtest_main  GcovFileParser)
+
+add_test(gtest_auto gtest_auto)

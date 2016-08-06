@@ -1,0 +1,42 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env: COMPILER=g++-4.9
+      update-alternatives:
+       - install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
+       - install /usr/bin/g++ g++ /usr/bin/g++-4.9 50
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=g++-5
+      update-alternatives:
+       - install /usr/bin/gcc gcc /usr/bin/gcc-5 50
+       - install /usr/bin/g++ g++ /usr/bin/g++-5 50
+
+before_install:
+  - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 40976EAF437D05B5
+  - sudo apt-get update -qq
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/$COMPILER 50
+
+script:
+  - cmake --version
+  - g++ -v
+  - mkdir build
+  - cd build
+  - cmake .. && make -j 4 
+  - ctest -V
