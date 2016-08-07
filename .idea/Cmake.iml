@@ -9,8 +9,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/auto/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/auto/slicereftest.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/auto/gcovfileparsertests.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/auto/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/auto/gcovbuffertests.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/googletest/googletest/src/gtest_main.cc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/googletest/googletest/src/gtest-all.cc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/googletest/googletest/CMakeLists.txt" isTestSource="false" />
