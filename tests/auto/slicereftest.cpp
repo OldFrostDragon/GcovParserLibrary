@@ -6,6 +6,8 @@
 
 #include <gcovbuffer.h>
 
+using namespace GcovParser;
+
 TEST(SliceRefTest, isInvalidByDefault) { ASSERT_FALSE(SliceRef().isValid()); }
 
 TEST(SliceRefTest, becameValidIfPointerIsInitialized)

@@ -3,6 +3,8 @@
 
 #include <vector>
 
+namespace GcovParser
+{
 using GcovByte = unsigned char;
 
 /*!
@@ -15,8 +17,11 @@ class SliceRef
 {
 public:
     SliceRef() = default;
+
     SliceRef(GcovByte *dataOffset, const int size);
+
     bool isValid() const { return _dataOffset != nullptr; }
+
     std::vector< GcovByte > toGcovBytes() const;
 
 private:
@@ -25,28 +30,31 @@ private:
 };
 
 /*!
- * \brief store raw bytes read from gcno or gcda file and provide interface for different data types
+ * @brief store raw bytes read from gcno or gcda file and provide interface for different data types
  * (e.g. integers, strings, blocks, functions, etc.)
  */
 class GcovBuffer
 {
 public:
     GcovBuffer();
+
     GcovBuffer(const std::vector< GcovByte > &rawData);
 
     bool isEmpty() const { return _rawData.empty(); }
+
     std::size_t size() const { return _rawData.size(); }
 
-    const std::vector< GcovByte > &getRawData() const;
     void setRawData(const std::vector< GcovByte > &rawData);
 
     std::vector< GcovByte > getSlice(const int position, const int size) const;
+
     SliceRef getSliceRef(const int position, const int size);
 
-private:
-    bool isPositionAndSizeCorrect(const int position, const int size) const;
+    bool canReadFrom(const int position, const int size) const;
 
+private:
     std::vector< GcovByte > _rawData;
 };
+}
 
 #endif  // GCOVBUFFER_H

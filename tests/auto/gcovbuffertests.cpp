@@ -6,6 +6,8 @@
 #include <gcovbuffer.h>
 #include <memory>
 
+using namespace GcovParser;
+
 class GcovBufferTest : public ::testing::Test
 {
 

@@ -1,8 +1,8 @@
 #include "gcovbuffer.h"
 
-GcovBuffer::GcovBuffer() {}
+using namespace GcovParser;
 
-const std::vector< GcovByte > &GcovBuffer::getRawData() const { return _rawData; }
+GcovBuffer::GcovBuffer() {}
 
 void GcovBuffer::setRawData(const std::vector< GcovByte > &rawData) { _rawData = rawData; }
 
@@ -10,7 +10,7 @@ GcovBuffer::GcovBuffer(const std::vector< GcovByte > &rawData) : _rawData(rawDat
 
 std::vector< GcovByte > GcovBuffer::getSlice(const int position, const int size) const
 {
-    if (!isPositionAndSizeCorrect(position, size))
+    if (!canReadFrom(position, size))
         return std::vector< GcovByte >();
 
     std::vector< GcovByte > data;
@@ -21,20 +21,17 @@ std::vector< GcovByte > GcovBuffer::getSlice(const int position, const int size)
 
 SliceRef GcovBuffer::getSliceRef(const int position, const int size)
 {
-    if (!isPositionAndSizeCorrect(position, size))
+    if (!canReadFrom(position, size))
         return SliceRef();
     else
         return SliceRef(_rawData.data() + position, size);
 }
 
-bool GcovBuffer::isPositionAndSizeCorrect(const int position, const int size) const
+bool GcovBuffer::canReadFrom(const int position, const int size) const
 {
     if (position < 0 || size < 0)
         return false;
-    else if (std::size_t(position + size) >= _rawData.size())
-        return false;
-    else
-        return true;
+    else return std::size_t(position + size) < _rawData.size();
 }
 
 SliceRef::SliceRef(GcovByte *dataOffset, const int size) : _dataOffset(dataOffset), _size(size) {}

@@ -2,6 +2,8 @@
 
 #include "gcovfileparser.h"
 
+using namespace GcovParser;
+
 class GcovFileParserTests : public ::testing::Test
 {
 public:
