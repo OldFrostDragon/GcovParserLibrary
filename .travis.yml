@@ -12,6 +12,11 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
+            - libcurl4-openssl-dev
+            - libelf-dev
+            - libdw-dev
+            - binutils-dev
+            - realpath
       env: COMPILER=g++-4.9
       update-alternatives:
        - install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
@@ -23,6 +28,11 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
+            - libcurl4-openssl-dev
+            - libelf-dev
+            - libdw-dev
+            - binutils-dev
+            - realpath
       env: COMPILER=g++-5
       update-alternatives:
        - install /usr/bin/gcc gcc /usr/bin/gcc-5 50
@@ -38,5 +48,21 @@ script:
   - g++ -v
   - mkdir build
   - cd build
-  - cmake .. && make -j 4 
+  - cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j 4 
   - ctest -V
+
+after_success: |
+  wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+  tar xzf master.tar.gz &&
+  cd kcov-master &&
+  mkdir build &&
+  cd build &&
+  cmake .. &&
+  make &&
+  sudo make install &&
+  cd ../.. &&
+  rm -rf kcov-master &&
+  mkdir ./cov &&
+  kcov --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/usr/include,/usr/lib,$(realpath $(pwd)/../tests)  ./cov ./tests/auto/gtest_auto &&
+  bash <(curl -s https://codecov.io/bash) &&
+  echo "Uploaded code coverage"
